@@ -1,0 +1,15 @@
+#! /bin/bash
+
+# launches an instance of st
+
+# terminate already running instances
+killall -q st
+
+# wait until the process have been shut down
+while pgrep -u $UID -x st >dev/null; do sleep 1; done
+
+# launch the first instance
+st -e bashtop &
+
+# focus on terminal above
+bspc desktop -l next

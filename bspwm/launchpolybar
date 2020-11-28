@@ -1,0 +1,15 @@
+#! /bin/bash
+
+# launches an instance of polybar
+
+# terminate already running instances
+killall -q polybar
+
+# wait until the process have been shut down
+while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
+
+# launch polybar, using default config location ~/.config/polybar/config
+polybar example &
+
+echo "polybar launched ... "
+
