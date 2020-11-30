@@ -61,7 +61,7 @@ main()
 		user
 		volume
 
-		xsetroot -name " $volume_ | 💻$mem_ | $disk_ | $date_ | ./internet $user_ "
+		xsetroot -name " $volume_ | 💻$mem_ | $disk_ | $date_ | $($HOME/.scripts/dwmstatusbar/internet) $user_ "
 		sleep 0.2
 	done
 }
