@@ -61,7 +61,7 @@ main()
 		user
 		volume
 
-		xsetroot -name " $volume_ | 💻$mem_ | $disk_ | $date_ | $user_ "
+		xsetroot -name " $volume_ | 💻$mem_ | $disk_ | $date_ | ./internet $user_ "
 		sleep 0.2
 	done
 }
