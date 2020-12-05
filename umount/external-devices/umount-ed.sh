@@ -30,14 +30,14 @@ umount_nonparam_device()
 
 	umount "$device"
 
-	[[ $? -eq 0 ]] && echo "$device was SUCCESFULLY unmounted"
+	[[ $? -eq 0 ]] && echo "$device was SUCCESFULLY unmounted" || echo "Some problems appeared when unmounting $device..."
 }
 
 umount_param_device()
 {
 	umount "$device"
 
-	[[ $? -eq 0 ]] && echo "$device was SUCCESFULLY unmounted"
+	[[ $? -eq 0 ]] && echo "$device was SUCCESFULLY unmounted" || echo "Some problems appeared when unmounting $device..."
 }
 
 while getopts d: OPTION
@@ -64,6 +64,7 @@ main()
 	default_answer=y
 	msg="Do you want to power off the device? [Y/n]: "
 	atribui_answer
+	interact
 
 	if [[ "$answer" = "y"* ]] || [[ "$answer" = "Y"* ]] ; then
 		udiskctl power-off -b "$device"
