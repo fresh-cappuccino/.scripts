@@ -6,9 +6,9 @@ mount_param_device()
 
 	[[ -d "$path" ]] || mkdir -p "$path"
 
-	mount "$partition" "$path"
+	mount "$device" "$path"
 
-	[[ $? -eq 0 ]] && echo "$partition was SUCCESFULLY mounted in $path"
+	[[ $? -eq 0 ]] && echo "$device was SUCCESFULLY mounted in $path"
 }
 
 mount_nonparam_device()
@@ -17,13 +17,13 @@ mount_nonparam_device()
 
 	lsblk
 
-	echo "Type the partition you want to mount: " && read partition
+	echo "Type the partition you want to mount: " && read device
 
 	[[ -d "$path" ]] || mkdir -p "$path"
 
-	mount "$partition" "$path"
+	mount "$device" "$path"
 
-	[[ $? -eq 0 ]] && echo "$partition was SUCCESFULLY mounted in $path"
+	[[ $? -eq 0 ]] && echo "$device was SUCCESFULLY mounted in $path"
 }
 
 while getopts a:d:p: OPTION

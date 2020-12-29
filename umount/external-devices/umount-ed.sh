@@ -15,7 +15,7 @@ atribui_answer()
 
 interact()
 {
-	while [[ "$answer" != "y"* ]] || [[ "$answer" != "Y"* ]] || [[ "$answer" != "n"* ]] || [[ "$answer" != "N"* ]]
+	while [[ "$answer" != "y"* ]] && [[ "$answer" != "Y"* ]] && [[ "$answer" != "n"* ]] && [[ "$answer" != "N"* ]]
 	do
 		echo "$msg" && read answer
 		[[ -z $answer ]] && answer=$default_answer
