@@ -26,7 +26,7 @@ umount_nonparam_device()
 {
 	lsblk
 
-	echo "Choose the disk to unmount: " && read device
+	echo "Choose the device [partition] to unmount: " && read device
 
 	umount "$device"
 
@@ -67,7 +67,9 @@ main()
 	interact
 
 	if [[ "$answer" = "y"* ]] || [[ "$answer" = "Y"* ]] ; then
-		udiskctl power-off -b "$device"
+		lsblk
+		echo "Type the device to power-off [Disk, not partition]: " && read device
+		udisksctl power-off -b "$device"
 	fi
 }
 
