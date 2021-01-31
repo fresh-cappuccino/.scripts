@@ -71,6 +71,8 @@ main()
 		echo "Type the device to power-off [Disk, not partition]: " && read device
 		udisksctl power-off -b "$device"
 	fi
+
+	echo "PROCCESS FINISHED! Type [ENTER] to continue ..." &&  read aux
 }
 
 main
