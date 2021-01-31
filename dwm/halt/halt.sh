@@ -109,7 +109,7 @@ opt_slock()
 		echo "... slocking screen ..." ; echo ""
 		echo -n "    [" ; echo -n $_char ; echo -n "${_space:0:$[$_end - ${#_char}]}" ; echo -n "]"
 		_char=$_char"#"
-		sleep 0.5
+		sleep 0.1
 	done
 	slock
 }
