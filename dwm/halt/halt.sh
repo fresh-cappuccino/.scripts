@@ -45,7 +45,7 @@ catch_opt()
 			;;
 
 		'2')
-			echo "TO EXIT DWM, PRESS: <sUPER> + <ALT> + Q" ; echo "" ; echo "... press any key to exit the script ..." ; read aux
+			echo "TO EXIT DWM, PRESS: <sUPER> + <ALT> + Q" ; echo "" ; echo "... press [ENTER] to exit the script ..." ; read aux
 			;;
 
 		'3')
@@ -84,7 +84,7 @@ catch_opt()
 			echo "| 0 | CANCEL SCRIPT                          |"
 			echo "|___|________________________________________|"
 			echo ""
-			echo "... press any key to go back to main menu ..." && read aux
+			echo "... press [ENTER] to go back to main menu ..." && read aux
 			;;
 	esac
 }
