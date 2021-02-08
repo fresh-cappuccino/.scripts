@@ -28,9 +28,9 @@ do
 	esac
 done
 
-[[ ! -d "$_PATH" ]] && mkdir "$_PATH"
+[[ ! -d "$_PATH" ]] && mkdir -p "$_PATH"
 
-if [[ -z $_LOOP ]] ; then
+if [[ -z $_LOOP ]] || [[ "$_LOOP" = "false" ]] ; then
 	if [[ ! -z $_FILE ]] && [[ ! -z $_DROP_CACHE ]] ; then # set an external image as wallpaper and deletes every image in $_PATH
 		[[ ! -f $_FILE ]] && exit 1
 		_TMP="TMP_wlppr_FL-nm"
