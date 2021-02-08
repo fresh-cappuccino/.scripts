@@ -27,7 +27,7 @@ cpu()
 disk(){
 	disk_root=$(df -h|awk '{if ($6 == "/") {print}}'|awk '{print "[/]: " $5}')
 	disk_home=$(df -h|awk '{if ($6 == "/home") {print}}'|awk '{print "[/home]: " $5}')
-	disk_="💾 $disk_root $disk_home"
+	disk_=" $disk_root $disk_home"
 }
 
 user()
@@ -40,12 +40,13 @@ user()
 
 volume()
 {
+	#
 	muted_=$(pamixer --get-mute)
 	if [[ "$muted_" = "true" ]] ; then
-		volume_="🎵 [-][-----------][🔇]"
+		volume_=" [--][-----------][🔇]"
 	else
 		num_vol=$(pamixer --get-volume)
-		volume_="🎵 [$num_vol][${vol_bar:0:$(expr $num_vol / 10)}>${vol_space:0:$(expr 10 - $num_vol / 10)}][奄]"
+		volume_=" [$num_vol][${vol_bar:0:$(expr $num_vol / 10)}>${vol_space:0:$(expr 10 - $num_vol / 10)}][]"
 	fi
 }
 
@@ -61,7 +62,7 @@ main()
 		user
 		volume
 
-		xsetroot -name " $volume_ | 💻$mem_ | $disk_ | $date_ | $($HOME/.scripts/dwmstatusbar/internet) $user_ "
+		xsetroot -name "  | $volume_ | 💻$mem_ | $disk_ | $date_ | $user_ "
 		sleep 0.2
 	done
 }
