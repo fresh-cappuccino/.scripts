@@ -12,4 +12,4 @@ while pgrep -u $UID -x st >dev/null; do sleep 1; done
 st -e bashtop &
 
 # focus on terminal above
-bspc desktop -l next
+# bspc desktop -l next

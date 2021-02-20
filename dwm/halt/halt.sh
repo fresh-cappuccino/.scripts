@@ -45,7 +45,7 @@ catch_opt()
 			;;
 
 		'2')
-			echo "TO EXIT DWM, PRESS: <sUPER> + <ALT> + Q" ; echo "" ; echo "... press [ENTER] to exit the script ..." ; read aux
+			echo "TO EXIT DWM, PRESS: <SUPER> + <ALT> + Q" ; echo "" ; echo "... press [ENTER] to exit the script ..." ; read aux
 			;;
 
 		'3')
