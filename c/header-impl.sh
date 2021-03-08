@@ -8,8 +8,8 @@ header_name=$1
 HEADER_NAME=`echo "$header_name"|tr ['a-z'] ['A-Z']|tr ['.'] ['_']`
 
 [[ -z $2 ]] && path=`pwd` || path=$2
-header_size=`cat $path/$header_name.h|wc -l`
-header_functions=`head -n$[$header_size - 1] $path/$header_name.h|tail -n$[$header_size - 3]`
+header_size=`cat $path/$header_name.h 2>/dev/null|wc -l`
+header_functions=`head -n$[$header_size - 1] $path/$header_name.h 2>/dev/null|tail -n$[$header_size - 3] 2>/dev/null`
 
 if [[ ! -z `echo $header_functions` ]] ; then
 	while [[ -z `echo "$header_functions"|head -n1` ]]
