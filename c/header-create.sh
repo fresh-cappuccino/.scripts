@@ -1,15 +1,39 @@
 #!/bin/sh
 
-[[ -z $1 ]] && echo "You need to specify a name for the library" && exit
+# get the options
+#
+# l = library path
+# n = name of the library
+while getopts l:n: OPTION
+do
+	case $OPTION in
+		'l')
+			lib_path=$OPTARG
+			;;
 
-header_name=$1
+		'n')
+			header_name=$OPTARG
+			;;
+	esac
+done
+
+# check if a name for the library was passed, if not, exit the script
+[[ -z $header_name ]] && echo "You need to specify a name for the library" && exit
+
+# if a path for the library was not passed, so it considers thw actual directory to be it
+[[ -z $lib_path ]] && lib_path=`pwd`
+
+# check if an extension for the library was passed (.h)
+# if so, it deletes it
 [[ `echo $header_name|awk -F '.' '{print $NF}'` = "h" ]] && header_name=${header_name:0:$[${#header_name} - 2]}
 
+# create a variable to include the constant with the library name (for definition)
 HEADER_NAME=`echo "$header_name"|tr ['a-z'] ['A-Z']|tr ['.'] ['_']`
 
+# implements the library
 echo -n "#ifndef ${HEADER_NAME}_H
 #define ${HEADER_NAME}_H
 
-#endif" >> $header_name.h
+#endif" >> $lib_path/$header_name.h
 
-echo "$header_name.h successfully created"
+echo "$header_name.h successfully created in $lib_path"
