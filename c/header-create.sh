@@ -1,12 +1,19 @@
 #!/bin/sh
 
+execute=true
+
 # get the options
 #
+# e = execute the created library true by default
 # l = library path
 # n = name of the library
-while getopts l:n: OPTION
+while getopts e:l:n: OPTION
 do
 	case $OPTION in
+		'e')
+			execute=$OPTARG
+			;;
+
 		'l')
 			lib_path=$OPTARG
 			;;
@@ -37,3 +44,5 @@ echo -n "#ifndef ${HEADER_NAME}_H
 #endif" >> $lib_path/$header_name.h
 
 echo "$header_name.h successfully created in $lib_path"
+
+[[ "$execute" = "t"* ]] && nvim "$lib_path/$header_name.h" || echo $? >/dev/null

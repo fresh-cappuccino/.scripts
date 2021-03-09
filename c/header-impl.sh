@@ -1,19 +1,32 @@
 #!/bin/sh
 
+execute=true
+relative_path=true
+
 # get all the options
 #
-# l = library_path
+# e = execute header implementation (true by default)
+# l = library path
 # n = library name
+# r = relative path in include (true by default)
 # s = source code path
-while getopts l:n:s: OPTION
+while getopts e:l:n:r:s: OPTION
 do
 	case $OPTION in
+		'e')
+			execute=$OPTARG
+			;;
+
 		'l')
 			lib_path=$OPTARG
 			;;
 
 		'n')
 			header_name=$OPTARG
+			;;
+
+		'r')
+			relative_path=$OPTARG
 			;;
 
 		's')
@@ -50,7 +63,7 @@ include=
 
 # if the library path is different from the source code path
 # so $include is mount
-if [[ "$lib_path" != "$source_path" ]] ; then
+if [[ "$lib_path" != "$source_path" ]] && [[ "$relative_path" = "t"* ]] ; then
 	num=1
 
 	# while both paths are equal, increment num
@@ -106,3 +119,5 @@ echo -n "#include <stdio.h>
 $header_functions" >> $source_path/$header_name.c
 
 echo "$header_name.h successfully created in $source_path"
+
+[[ "$execute" = "t"* ]] && nvim "$source_path/$header_name.c" || echo $? >/dev/null
