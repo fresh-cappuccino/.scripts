@@ -118,6 +118,6 @@ echo -n "#include <stdio.h>
 
 $header_functions" >> $source_path/$header_name.c
 
-echo "$header_name.h successfully created in $source_path"
+echo "$header_name.c successfully created in $source_path"
 
 [[ "$execute" = "t"* ]] && nvim "$source_path/$header_name.c" || echo $? >/dev/null
