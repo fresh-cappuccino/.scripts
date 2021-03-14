@@ -14,6 +14,9 @@ if [[ "${DIR_TAR:0:1}" = "-" ]] ; then
 	DIR_ORI=`echo $DIR_ORI|awk '{$NF=""; print}'`
 fi
 
+DIR_ORI=`echo $DIR_ORI|sed 's/\/\ //g'|sed 's/\/$//'`
+DIR_TAR=`echo $DIR_TAR|sed 's/\/$//'`
+
 while [[ ! -z $DIR_ORI ]]
 do
 	V=`echo $DIR_ORI|awk '{print $1}'`
