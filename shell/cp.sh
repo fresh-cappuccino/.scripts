@@ -41,7 +41,7 @@ do
 		are_u_sure
 
 	else
-		if [[ `echo $V|awk -F"/" '{print $NF}'` = `echo $DIR_TAR|awk -F "/" '{print $NF}'`  ]] && [[ ! -d `echo $DIR_TAR|awk -F "/" '{print $NF}'` ]] ; then
+		if [[ -e `echo $DIR_TAR`  ]] && [[ ! -d `echo $DIR_TAR` ]] ; then
 			MSG="$DIR_TAR already exists, want to continue? [y/N] "
 			are_u_sure
 		else

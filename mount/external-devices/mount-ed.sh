@@ -3,7 +3,7 @@
 rename_path()
 {
 	npath=0
-	path_base="/run/media/ed"
+	path_base="$HOME/external/device"
 	path=$path_base$npath
 
 	while [[ -d "$path" ]]
@@ -18,7 +18,7 @@ mount_param_device()
 	[[ -z "$path" ]] && rename_path
 	[[ -d "$path" ]] || mkdir -p "$path"
 
-	mount "$device" "$path"
+	mount -o umask=0770,gid=`id -g $(whoami)`,uid=`id -u $(whoami)` "$device" "$path"
 
 	[[ $? -eq 0 ]] && echo "$device was SUCCESFULLY mounted in $path. Press [ENTER] to continue"
 }
@@ -33,7 +33,7 @@ mount_nonparam_device()
 
 	[[ -d "$path" ]] || mkdir -p "$path"
 
-	mount "$device" "$path"
+	mount -o umask=0770,gid=`id -g $(whoami)`,uid=`id -u $(whoami)` "$device" "$path"
 
 	[[ $? -eq 0 ]] && echo "$device was SUCCESFULLY mounted in $path. Press [ENTER] to continue"
 }
