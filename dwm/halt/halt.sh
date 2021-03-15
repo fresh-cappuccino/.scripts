@@ -26,7 +26,8 @@ declare -a options=(
 "Quit"
 )
 
-yesno(){
+yesno()
+{
 	# shellcheck disable=SC2005
 	echo "$(echo -e "No\nYes" | dmenu -i -p "${1}")"
 }
