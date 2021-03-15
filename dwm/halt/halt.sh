@@ -1,181 +1,88 @@
 #!/bin/sh
 
-list_opt()
-{
-	echo "############################"
-	echo "#        ___       _______ #"
-	echo "# |   | /   \\ |       |    #"
-	echo "# |___| |___| |       |    #"
-	echo "# |   | |   | |       |    #"
-	echo "# |   | |   | \\___    |    #"
-	echo "############################"
-	echo "|___|______________________|"
-	echo "|   |                      |"
-	echo "| ? | DESC                 |"
-	echo "|   |                      |"
-	echo "| 1 | SLOCK                |"
-	echo "|   |                      |"
-	echo "| 2 | QUIT DWM             |"
-	echo "|   |                      |"
-	echo "| 3 | REBOOT               |"
-	echo "|   |                      |"
-	echo "| 4 | HALT                 |"
-	echo "|   |                      |"
-	echo "| 0 | CANCEL               |"
-	echo "|___|______________________|"
+# Define LOCKER in .xprofile to set to different LOCKER program
+LOCKER="${LOCKER:-slock}"
+
+# use notify-send if run in dumb term
+OUTPUT="echo"
+if [[ ${TERM} == 'dumb' ]]; then
+	OUTPUT="notify-send"
+fi
+
+declare -a MANAGERS=(
+"awesome"
+"bspwm"
+"dwm"
+"spectrwm"
+"xmonad"
+"qtile"
+)
+
+# An array of options to choose.
+declare -a options=(
+"Lock screen"
+"Logout"
+"Reboot"
+"Shutdown"
+"Suspend"
+"Quit"
+)
+
+yesno(){
+	# shellcheck disable=SC2005
+	echo "$(echo -e "No\nYes" | dmenu -i -p "${1}")"
 }
 
-catch_opt()
-{
-	while [[ "$opt" != "1"* ]] &&
-				[[ "$opt" != "2"* ]] &&
-				[[ "$opt" != "3"* ]] &&
-				[[ "$opt" != "4"* ]] &&
-				[[ "$opt" != "0"* ]] &&
-				[[ "$opt" != "?"* ]]
-	do
-		read opt
-	done
+# Piping the above array into dmenu.
+# We use "printf '%s\n'" to format the array one item to a line.
+choice=$(printf '%s\n' "${options[@]}" | dmenu -i -p 'Shutdown menu:')
 
-	opt=${opt:0:1}
+# What to do when/if we choose one of the options.
+case $choice in
+	'Logout')
+		if [[ $(yesno "Logout?") == "Yes" ]]; then
+			for manager in "${MANAGERS[@]}"; do
+				killall "${manager}" || ${OUTPUT} "Process ${manager} was not running."
+			done
+		else
+			${OUTPUT} "User chose not to logout." && exit 1
+		fi
+		;;
 
-	case $opt in
-		'1')
-			opt_slock
-			;;
+	'Lock screen')
+		${LOCKER}
+		;;
 
-		'2')
-			echo "TO EXIT DWM, PRESS: <SUPER> + <ALT> + Q" ; echo "" ; echo "... press [ENTER] to exit the script ..." ; read aux
-			;;
+	'Reboot')
+		if [[ $(yesno "Reboot?") == "Yes" ]]; then
+			shutdown -r now
+		else
+			${OUTPUT} "User chose not to reboot." && exit 0
+		fi
+		;;
 
-		'3')
-			opt_reboot
-			;;
+	'Shutdown')
+		if [[ $(yesno "Shutdown?") == "Yes" ]]; then
+			shutdown -h now
+		else
+			${OUTPUT} "User chose not to shutdown." && exit 0
+		fi
+		;;
 
-		'4')
-			opt_halt
-			;;
+	'Suspend')
+		if [[ $(yesno "Suspend?") == "Yes" ]]; then
+			systemctl suspend
+		else
+			${OUTPUT} "User chose not to suspend." && exit 0
+		fi
+		;;
 
-		'0')
-			break
-			;;
-
-		'?')
-			clear
-			echo "##############################################"
-		  echo "#  __    ___  ___  ___  ___     ___  _______ #"
-			echo "# |  \\  /    /    /    |   \\ | |   \\    |    #"
-			echo "# |   \\ |__  \\__  |    |___/ | |___/    |    #"
-			echo "# |   / |       \\ |    |   \\ | |        |    #"
-			echo "# |__/  \\___ ___/ \\___ |   | | |        |    #"
-			echo "##############################################"
-			echo "|___|________________________________________|"
-			echo "|   |                                        |"
-			echo "| ? | SHOW DESCRIPTIONS OF EACH OPTION       |"
-			echo "|   |                                        |"
-			echo "| 1 | LOCK SCREEN WITH SLOCK                 |"
-			echo "|   |                                        |"
-			echo "| 2 | QUIT INTERFACE                         |"
-			echo "|   |                                        |"
-			echo "| 3 | REBOOT THE SYSTEM                      |"
-			echo "|   |                                        |"
-			echo "| 4 | TURN OFF THE SYSTEM                    |"
-			echo "|   |                                        |"
-			echo "| 0 | CANCEL SCRIPT                          |"
-			echo "|___|________________________________________|"
-			echo ""
-			echo "... press [ENTER] to go back to main menu ..." && read aux
-			;;
-	esac
-}
-
-opt_slock()
-{
-	_init=0
-	_end=13
-	_char=""
-	_space=""
-
-	while [[ $_init -lt $_end ]]
-	do
-		_space=$_space"-"
-		_init=$[$_init + 1]
-	done
-	$_init=0
-
-	while [[ ${#_char} -le $_end ]]
-	do
-		clear
-		echo "... slocking screen ..." ; echo ""
-		echo -n "    [" ; echo -n $_char ; echo -n "${_space:0:$[$_end - ${#_char}]}" ; echo -n "]"
-		_char=$_char"#"
-		sleep 0.1
-	done
-	slock
-}
-
-opt_reboot()
-{
-	_init=0
-	_end=7
-	_char=""
-	_space=""
-
-	while [[ $_init -lt $_end ]]
-	do
-		_space=$_space"-"
-		_init=$[$_init + 1]
-	done
-	$_init=0
-
-	while [[ ${#_char} -le $_end ]]
-	do
-		clear
-		echo "... rebooting ..." ; echo ""
-		echo -n "    [" ; echo -n $_char ; echo -n "${_space:0:$[$_end - ${#_char}]}" ; echo -n "]"
-		_char=$_char"#"
-		sleep 0.5
-	done
-	shutdown -r now
-}
-
-opt_halt()
-{
-	_init=0
-	_end=9
-	_char=""
-	_space=""
-
-	while [[ $_init -lt $_end ]]
-	do
-		_space=$_space"-"
-		_init=$[$_init + 1]
-	done
-	$_init=0
-
-	while [[ ${#_char} -le $_end ]]
-	do
-		clear
-		echo "... turning off ..." ; echo ""
-		echo -n "    [" ; echo -n $_char ; echo -n "${_space:0:$[$_end - ${#_char}]}" ; echo -n "]"
-		_char=$_char"#"
-		sleep 0.5
-	done
-	shutdown -h now
-}
-
-main()
-{
-	clear
-
-	opt='?'
-	while [[ "$opt" = "?"* ]]
-	do
-		clear
-		opt=''
-		list_opt
-		catch_opt
-	done
-}
-
-main
+	'Quit')
+		${OUTPUT} "Program terminated." && exit 0
+		;;
+		# It is a common practice to use the wildcard asterisk symbol (*) as a final
+		# pattern to define the default case. This pattern will always match.
+		*)
+		exit 0
+		;;
+esac
