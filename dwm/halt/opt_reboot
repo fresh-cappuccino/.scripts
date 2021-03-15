@@ -1,23 +1,17 @@
 #!/bin/sh
 
-_init=0
-_end=7
-_char=""
-_space=""
+# use notify-send if run in dumb term
+OUTPUT="echo"
+[[ ${TERM} == 'dumb' ]] && OUTPUT="notify-send"
 
-while [[ $_init -lt $_end ]]
-do
-	_space=$_space"-"
-	_init=$[$_init + 1]
-done
-$_init=0
+yesno()
+{
+	# shellcheck disable=SC2005
+	echo "$(echo -e "No\nYes" | dmenu -i -p "${1}")"
+}
 
-while [[ ${#_char} -le $_end ]]
-do
-	clear
-	echo "... rebooting ..." ; echo ""
-	echo -n "    [" ; echo -n $_char ; echo -n "${_space:0:$[$_end - ${#_char}]}" ; echo -n "]"
-	_char=$_char"#"
-	sleep 0.5
-done
-shutdown -r now
+if [[ $(yesno "Reboot?") == "Yes" ]]; then
+	shutdown -r now
+else
+	${OUTPUT} "User chose not to reboot." && exit 0
+fi

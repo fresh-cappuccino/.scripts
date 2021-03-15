@@ -1,0 +1,23 @@
+#!/bin/sh
+
+_init=0
+_end=9
+_char=""
+_space=""
+
+while [[ $_init -lt $_end ]]
+do
+	_space=$_space"-"
+	_init=$[$_init + 1]
+done
+$_init=0
+
+while [[ ${#_char} -le $_end ]]
+do
+	clear
+	echo "... turning off ..." ; echo ""
+	echo -n "    [" ; echo -n $_char ; echo -n "${_space:0:$[$_end - ${#_char}]}" ; echo -n "]"
+	_char=$_char"#"
+	sleep 0.5
+done
+shutdown -h now

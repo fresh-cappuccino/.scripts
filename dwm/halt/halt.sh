@@ -5,9 +5,7 @@ LOCKER="${LOCKER:-slock}"
 
 # use notify-send if run in dumb term
 OUTPUT="echo"
-if [[ ${TERM} == 'dumb' ]]; then
-	OUTPUT="notify-send"
-fi
+[[ ${TERM} == 'dumb' ]] && OUTPUT="notify-send"
 
 declare -a MANAGERS=(
 "awesome"
