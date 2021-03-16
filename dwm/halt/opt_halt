@@ -11,7 +11,7 @@ yesno()
 }
 
 if [[ $(yesno "Shutdown?") == "Yes" ]]; then
-	shutdown -r now
+	shutdown -h now
 else
 	${OUTPUT} "User chose not to shutdown." && exit 1
 fi
