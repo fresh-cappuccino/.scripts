@@ -4,25 +4,14 @@
 OUTPUT="echo"
 [[ ${TERM} == 'dumb' ]] && OUTPUT="notify-send"
 
-declare -a MANAGERS=(
-"awesome"
-"bspwm"
-"dwm"
-"spectrwm"
-"xmonad"
-"qtile"
-)
-
 yesno()
 {
 	# shellcheck disable=SC2005
 	echo "$(echo -e "No\nYes" | dmenu -i -p "${1}")"
 }
 
-if [[ $(yesno "Logout?") == "Yes" ]]; then
-	for manager in "${MANAGERS[@]}"; do
-		killall "${manager}" || ${OUTPUT} "Process ${manager} was not running."
-	done
+if [[ $(yesno "Shutdown?") == "Yes" ]]; then
+	shutdown -r now
 else
-	${OUTPUT} "User chose not to logout." && exit 1
+	${OUTPUT} "User chose not to shutdown." && exit 1
 fi
