@@ -15,22 +15,14 @@ are_u_sure()
 	fi
 }
 
-while [[ 1 -lt $# ]]
+while [[ 0 -lt $# ]]
 do
 	[[ ${1:0:1} = "-" ]] && FLAGS="$FLAGS $1" || DIR_ORI="$DIR_ORI $1"
 	shift
 done
 
-DIR_TAR=$1
-
-if [[ "${DIR_TAR:0:1}" = "-" ]] ; then
-	FLAGS="$FLAGS $DIR_TAR"
-	DIR_TAR=`echo $DIR_ORI|awk '{print $NF}'`
-	DIR_ORI=`echo $DIR_ORI|awk '{$NF=""; print}'`
-fi
-
-DIR_ORI=`echo $DIR_ORI|sed 's/\/\ /\ /g'|sed 's/\/$//'`
-DIR_TAR=`echo $DIR_TAR|sed 's/\/$//'`
+DIR_TAR=`echo $DIR_ORI|awk '{print $NF}'|sed 's/\/$//'`
+DIR_ORI=`echo $DIR_ORI|awk '{$NF=""; print}'|sed 's/\/\ /\ /g'|sed 's/\/$//'`
 
 while [[ ! -z $DIR_ORI ]]
 do
