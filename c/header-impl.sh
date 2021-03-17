@@ -46,17 +46,26 @@ done
 # if library path was not passed, so the actual directory is considered to be it
 [[ -z $lib_path ]] && lib_path=`pwd`
 
-# if source code path was not passed, so the actual directory is considered to be it
-[[ -z $source_path ]] && source_path=`pwd`
+# if source code path was not passed, so the actual directory is considered to be the same as $lib_path
+[[ -z $source_path ]] && source_path=$lib_path
 
 # change all paths to absolute paths
 actual_path=`pwd`
-cd $lib_path
-lib_path=`pwd`
-cd $actual_path
-cd $source_path
-source_path=`pwd`
-cd $actual_path
+if [[ -d $lib_path ]] ; then
+	cd $lib_path
+	lib_path=`pwd`
+	cd $actual_path
+else
+	echo "$lib_path is not a valid directory!" && exit 1
+fi
+
+if [[ -d "$source_path" ]] ; then
+	cd $source_path
+	source_path=`pwd`
+	cd $actual_path
+else
+	echo "$source_path is not a valid directory" && exit 1
+fi
 
 # variable responsible to be the relative path for the library include in c file
 include=

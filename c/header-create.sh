@@ -37,6 +37,9 @@ done
 # create a variable to include the constant with the library name (for definition)
 HEADER_NAME=`echo "$header_name"|tr ['a-z'] ['A-Z']|tr ['.'] ['_']`
 
+# checks if $lib_path exists, if not, creates it
+[[ ! -e "$lib_path" ]] && mkdir "$lib_path"
+
 # implements the library
 echo -n "#ifndef ${HEADER_NAME}_H
 #define ${HEADER_NAME}_H
