@@ -107,7 +107,7 @@ header_functions=`head -n$[$header_size - 1] $lib_path/$header_name.h 2>/dev/nul
 
 # if $header_functions have any content, so takes of all blank lines from the beginning and from the end of the file
 if [[ ! -z `echo $header_functions` ]] ; then
-	while [[ -z `echo "$header_functions"|head -n1` ]] || [[ `echo $header_functions|head -n1` = "#"* ]]
+	while [[ -z `echo "$header_functions"|head -n1` ]] || [[ `echo $header_functions|head -n1` = "#"* ]] || [[ `echo $header_functions|head -n1` = "struct"*{* ]]
 	do
 		header_size=`echo "$header_functions"|wc -l`
 		header_functions=`echo "$header_functions"|tail -n$[$header_size - 1]`
@@ -121,9 +121,7 @@ if [[ ! -z `echo $header_functions` ]] ; then
 fi
 
 # implement it
-echo -n "#include <stdio.h>
-
-#include \"$include$header_name.h\"
+echo -n "#include \"$include$header_name.h\"
 
 $header_functions" >> $source_path/$header_name.c
 
