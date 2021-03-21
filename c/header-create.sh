@@ -41,8 +41,8 @@ HEADER_NAME=`echo "$header_name"|tr ['a-z'] ['A-Z']|tr ['.'] ['_']`
 [[ ! -e "$lib_path" ]] && mkdir -p "$lib_path"
 
 # implements the library
-echo -n "#ifndef ${HEADER_NAME}_H
-#define ${HEADER_NAME}_H
+echo -n "#ifndef _${HEADER_NAME}_H_
+#define _${HEADER_NAME}_H_
 
 #endif" >> $lib_path/$header_name.h
 
