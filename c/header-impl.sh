@@ -59,6 +59,8 @@ else
 	echo "$lib_path is not a valid directory!" && exit 1
 fi
 
+[[ ! -f "$lib_path/$header_name.h" ]] && echo "Library $header_name.h not found! Please specify an existant library name..." && exit
+
 if [[ -d "$source_path" ]] ; then
 	cd $source_path
 	source_path=`pwd`
