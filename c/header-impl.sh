@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 execute=true
 relative_path=true
