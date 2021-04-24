@@ -2,11 +2,11 @@
 
 atribui_answer()
 {
-	if [[ "$check" = "y"* ]] || [[ "$check" = "Y"* ]] ; then
+	if [ "${check%"${check#?}"}" = "y" ] || [ "${check%"${check#?}"}" = "Y" ] ; then
 		answer=y
-	elif [[ "$check" = "n"* ]] || [[ "$check" = "N"* ]] ; then
+	elif [ "${check%"${check#?}"}" = "n" ] || [ "${check%"${check#?}"}" = "N" ] ; then
 		answer=n
-	elif [[ "$check" = "d"* ]] || [[ "$check" = "D"* ]] ; then
+	elif [ "${check%"${check#?}"}" = "d" ] || [ "$check"  = "D" ] ; then
 		answer=$default_answer
 	else
 		answer=x
@@ -15,10 +15,10 @@ atribui_answer()
 
 interact()
 {
-	while [[ "$answer" != "y"* ]] && [[ "$answer" != "Y"* ]] && [[ "$answer" != "n"* ]] && [[ "$answer" != "N"* ]]
+	while [ "${answer%"${answer#?}"}" != "y" ] && [ "${answer%"${answer#?}"}" != "Y" ] && [ "${answer%"${answer#?}"}" != "n" ] && [ "${answer%"${answer#?}"}" != "N" ]
 	do
 		echo "$msg" && read answer
-		[[ -z $answer ]] && answer=$default_answer
+		[ -z $answer ] && answer=$default_answer
 	done
 }
 
@@ -30,14 +30,14 @@ umount_nonparam_device()
 
 	umount "$device"
 
-	[[ $? -eq 0 ]] && echo "$device was SUCCESFULLY unmounted" || echo "Some problems appeared when unmounting $device..."
+	[ "$?" -eq 0 ] && echo "$device was SUCCESFULLY unmounted" || echo "Some problems appeared when unmounting $device..."
 }
 
 umount_param_device()
 {
 	umount "$device"
 
-	[[ $? -eq 0 ]] && echo "$device was SUCCESFULLY unmounted" || echo "Some problems appeared when unmounting $device..."
+	[ "$?" -eq 0 ] && echo "$device was SUCCESFULLY unmounted" || echo "Some problems appeared when unmounting $device..."
 }
 
 while getopts d: OPTION
@@ -66,7 +66,7 @@ main()
 	atribui_answer
 	interact
 
-	if [[ "$answer" = "y"* ]] || [[ "$answer" = "Y"* ]] ; then
+	if [ "${answer%"${answer#?}"}" = "y" ] || [ "${answer%"${answer#?}"}" = "Y" ] ; then
 		lsblk
 		echo "Type the device to power-off [Disk, not partition]: " && read device
 		udisksctl power-off -b "$device"

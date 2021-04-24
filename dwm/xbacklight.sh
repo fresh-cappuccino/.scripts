@@ -9,10 +9,10 @@ incr=5%
 cur=$(xbacklight -get)
 case "$1" in
 	"up")
-		[[ $cur -eq 0 ]] && xbacklight -set 1 || xbacklight -inc $incr
+		[ "$cur" -eq 0 ] && xbacklight -set 1 || xbacklight -inc $incr
 		;;
 	"down")
-		[[ $cur -le 5 ]] && xbacklight -set 1 || xbacklight -dec $incr
+		[ "$cur" -le 5 ] && xbacklight -set 1 || xbacklight -dec $incr
 		;;
 	*)
 		echo "Unsupported: \"$1\""

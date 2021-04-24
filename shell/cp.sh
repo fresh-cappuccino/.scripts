@@ -26,8 +26,9 @@ done
 DIR_TAR=`echo $DIR_ORI|awk '{print $NF}'|sed 's/\/$//'`
 DIR_ORI=`echo $DIR_ORI|awk '{$NF=""; print}'|sed 's/\/\ /\ /g'|sed 's/\/$//'`
 
-if [[ $FLAGS = *"--overwrite"* ]] ; then
+if [[ $FLAGS = *"--overwrite"* ]] || [[ $FLAGS = *"--ow"* ]] ; then
 	FLAGS=`echo "$FLAGS"|sed 's/\-\-overwrite//g'`
+	FLAGS=`echo "$FLAGS"|sed 's/\-\-ow//g'`
 	cp $progress_bar $FLAGS $DIR_ORI $DIR_TAR
 else
 	while [ ! -z "$DIR_ORI" ]

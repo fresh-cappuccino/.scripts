@@ -42,7 +42,7 @@ volume()
 {
 	#
 	muted_=$(pamixer --get-mute)
-	if [[ "$muted_" = "true" ]] ; then
+	if [ "$muted_" = "true" ] ; then
 		volume_=" [--][-----------][🔇]"
 	else
 		num_vol=$(pamixer --get-volume)

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # Define LOCKER in .xprofile to set to different LOCKER program
 LOCKER="${LOCKER:-slock}"

@@ -7,16 +7,16 @@ selected="$(ps --user "$(id -u)" -F | \
 
 # Nested 'if' statements.  The outer 'if' statement is what to do
 # when we select one of the 'selected' options listed in dmenu.
-if [[ -n $selected ]]; then
+if [ -n "$selected" ]; then
 	answer="$(echo -e "No\nYes" | dmenu -i -p "Kill $selected?")"
 
-	if [[ $answer == "Yes" ]]; then
+	if [ "$answer" = "Yes" ]; then
 		selpid="$(awk '{print $1}' <<< "$selected")";
 		kill -9 "$selpid"
 		echo "Process $selected has been killed." && exit 0
 	fi
 
-	if [[ $answer == "No" ]]; then
+	if [ "$answer" == "No" ]; then
 		echo "Program terminated." && exit 0
 	fi
 fi

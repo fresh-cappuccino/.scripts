@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 _PATH=
-[[ `pwd|cut -d "/" -f 3` = `whoami` ]] && _PATH=`echo -n "/"` && _PATH=$_PATH`echo -en "\033[01;32m~\033[01;36m☕\033[01;32m~$(tput sgr0)"` && _PATH=$_PATH`echo -n "/"` && _PATH=$_PATH`pwd|cut -d "/" -f 4-` || _PATH=$_PATH`pwd`
+[[ "/`pwd|cut -d "/" -f 2-3`" = "/home/`whoami`" ]] && _PATH=`echo -n "/"` && _PATH=$_PATH`echo -en "\033[01;32m~\033[01;36m☕\033[01;32m~$(tput sgr0)"` && _PATH=$_PATH`echo -n "/"` && _PATH=$_PATH`pwd|cut -d "/" -f 4-` || _PATH=$_PATH`pwd`
 
 if [[ ${_PATH:0:2} = "/"[a-zA-Z] ]] || [[ ${_PATH} = "/" ]] ; then
 	_NUM=0
