@@ -1,0 +1,12 @@
+#!/bin/sh
+
+[ ${#@} -eq 0 ] && echo "There is one mandatory parameter!" && exit 1
+
+[ ${#@} -gt 1 ] && echo "Only one parameter is supported!" && exit 1
+
+param="$@"
+_path="$HOME/.scripts/shell"
+_file="coffeefetch"
+path_file="$_path/$_file"
+
+[ ! -f "$path_file$param" ] && echo "$path_file$param does not exist! Type \`list-coffeefetch\` to see all available files" || cp "$path_file$param" "$path_file"

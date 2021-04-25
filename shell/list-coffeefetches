@@ -1,0 +1,17 @@
+#!/bin/bash
+
+_path="$HOME/.scripts/shell"
+
+list=`ls $_path|grep ^coffeefetch|sed 's/^coffeefetch$//'`
+
+$HOME/.scripts/shell/title.sh "AVAILABLE COFFEEFETCHES"
+
+num=1
+size=`echo $list|awk '{print NF}'`
+
+while [ $num -le $size ]
+do
+	item=`echo $list|cut -d" " -f$num`
+	[ X"`head -n2 $_path/coffeefetch|tail -n1`" = X"`head -n2 $_path/$item|tail -n1`" ] && echo "* $item" || echo "$item"
+	num=$((num + 1))
+done
