@@ -6,12 +6,20 @@ do
 	shift
 done
 
-if [[ `echo $FIELDS|awk '{print NF}'` -eq 1 ]] ; then
-	$HOME/.scripts/shell/pwd.sh
-	FIELDS=`echo $FIELDS|sed 's/\ $//'|sed 's/\/$//'`
-	[[ -d "$FIELDS" ]] && echo "$FIELDS/:" || echo "$FIELDS:"
+$HOME/.scripts/shell/pwd.sh
+SIZE=`echo $FIELDS|awk '{print NF}'`
+if [ "$SIZE" -gt 0 ] ; then
+	NUM=1
+	while [ $NUM -le $SIZE ]
+	do
+		FIELD=`echo $FIELDS|cut -d" " -f$NUM`
+		FIELD=`echo $FIELD|sed 's/\ $//'|sed 's/\/$//'`
+		[[ -d "$FIELD" ]] && FIELD="$FIELD/" || FIELD="$FIELDS"
+		$HOME/.scripts/shell/title-pwd.sh $FIELD
+		exa --icons --group-directories-first $FLAGS $FIELD
+		echo
+		NUM=$((NUM + 1))
+	done
+else
 	exa --icons --group-directories-first $FLAGS $FIELDS
-	exit 0
 fi
-
-$HOME/.scripts/shell/pwd.sh ; exa --icons --group-directories-first $FLAGS $FIELDS
