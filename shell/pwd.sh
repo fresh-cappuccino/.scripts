@@ -12,6 +12,10 @@ fi
 _DASH=
 while [[ $_NUM -lt ${#_PATH} ]] ; do _DASH=$_DASH"─" ; _NUM=$[$_NUM + 1] ; done
 
-echo $_DASH
-echo $_PATH
-echo $_DASH
+
+
+echo " ┌$_DASH──»"
+# echo "  $_PATH┌"
+echo "  $_PATH"
+echo "──$_DASH┘"
+echo
