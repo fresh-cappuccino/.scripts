@@ -92,4 +92,4 @@ if [ "$lib_path" != "$source_path" ] && [ "${relative_path%"${relative_path#?}"}
 fi
 
 include=`echo $include|sed 's/\/$//'`
-echo "#include \"$include/$header_name\""
+[ X"" = X"$include" ] && echo "#include \"$header_name\"" || echo "#include \"$include/$header_name\""
