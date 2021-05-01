@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-progress_bar=-g overwrite=0
+progress_bar=-g
+overwrite=0
 _end=" ;--end--; "
 
 are_u_sure() {
@@ -33,10 +34,11 @@ done
 
 DIR_TAR=`echo $DIR_ORI|awk -F "$_end" '{print $NF}'|sed 's/\/$//'`
 DIR_ORI=`echo "$DIR_ORI"|sed 's/\/$//'`
-SLASHES=`echo "$DIR_TAR"|awk -F '/' '{print NF}'`
+[ "$DIR_TAR" != "/" ] && SLASHES=`echo "$DIR_TAR"|awk -F '/' '{print NF}'` || SLASHES=1
 TAR=$DIR_TAR
 if [ $SLASHES -gt 1 ] ; then
 	SLASH=1
+	[ "${TAR%"${TAR#?}"}" = / ] && SLASHES=$((SLASHES - 1))
 	while [ $SLASH -lt $SLASHES ]
 	do
 		SUB=`echo "$TAR"|awk -F '/' '{print $NF}'`
@@ -49,6 +51,9 @@ if [ "$TAR" = "." ] ; then
 	DIR_ORI=`echo $DIR_ORI|sed "s/$_end\.//"`
 elif [ "$TAR" = "/" ] ; then
 	DIR_ORI=`echo $DIR_ORI|sed "s/$_end\///"`
+elif [ "${TAR%"${TAR#?}"}" = "/" ] ; then
+	TAR=`echo "$TAR"|sed 's/^\///'`
+	DIR_ORI=`echo $DIR_ORI|sed "s/$_end\/$TAR$//"`
 else
 	DIR_ORI=`echo $DIR_ORI|sed "s/$_end$TAR//"`
 fi
