@@ -40,7 +40,6 @@ if [ $SLASHES -gt 1 ] ; then
 	while [ $SLASH -lt $SLASHES ]
 	do
 		SUB=`echo "$TAR"|awk -F '/' '{print $NF}'`
-		echo "$SUB"
 		DIR_ORI=`echo "$DIR_ORI"|sed "s/\/$SUB$//"`
 		TAR=`echo "$TAR"|sed "s/\/$SUB//"`
 		SLASH=$((SLASH + 1))
