@@ -12,7 +12,7 @@ are_u_sure() {
 	done
 
 	if [ "${ANS:0:1}" = "y" ] || [ "${ANS:0:1}" = "Y" ] ; then
-		mv -g $FLAGS "$V" "$DIR_TAR" || mv "$V" "$DIR_TAR"
+		mv "$progress_bar" $FLAGS "$V" "$DIR_TAR" || mv $FLAGS "$V" "$DIR_TAR"
 	else
 		echo "'mv \"$V\" \"$DIR_TAR\"' CANCELED!"
 	fi
@@ -91,16 +91,20 @@ else
 		V=`echo $DIR_ORI|awk -F "$_end" '{print $1}'`
 		[ ${#V} -gt 1 ] && v=`echo "$V"|sed 's/\/$//'` || v=$V
 
-		if [ -e "$DIR_TAR/`echo \"$v\"|awk -F \"/\" '{print $NF}'`" ] ; then
-			MSG="$DIR_TAR/`echo $v|awk -F\"/\" '{print $NF}'` already exists, want to continue? [y/N] "
-			are_u_sure
-		else
-			if [ -e "`echo $DIR_TAR`" ] && [ ! -d "`echo $DIR_TAR`" ] ; then
-				MSG="$DIR_TAR already exists, want to continue? [y/N] "
+		if [ -e "$v" ] ; then
+			if [ -e "$DIR_TAR/`echo \"$v\"|awk -F \"/\" '{print $NF}'`" ] ; then
+				MSG="$DIR_TAR/`echo $v|awk -F\"/\" '{print $NF}'` already exists, want to continue? [y/N] "
 				are_u_sure
 			else
-				mv $progress_bar $FLAGS "$V" "$DIR_TAR" || mv "$V" "$DIR_TAR"
+				if [ -e "`echo $DIR_TAR`" ] && [ ! -d "`echo $DIR_TAR`" ] ; then
+					MSG="$DIR_TAR already exists, want to continue? [y/N] "
+					are_u_sure
+				else
+					mv $progress_bar $FLAGS "$V" "$DIR_TAR" || mv "$FLAGS" "$V" "$DIR_TAR"
+				fi
 			fi
+		else
+			mv $progress_bar $FLAGS "$V" "$DIR_TAR" || mv "$FLAGS" "$V" "$DIR_TAR"
 		fi
 
 		# DIR_ORI=`echo $DIR_ORI|awk -F "$_end" '{$1=""; print}'`
