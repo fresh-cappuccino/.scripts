@@ -43,14 +43,17 @@ done
 
 # check if src is empty
 # if it is, so set the default value
-[ -z "$src" ] && src=src
+[ X"" = X"$src" ] && src=src
 
-header_name=`echo "$header_name"|awk -F '/' '{print $NF}'`
-hn=`find $src -maxdepth 100 -type f -name $header_name|head -n1|sed 's/\/'$header_name'$//'`
+header_name_only=`echo "$header_name"|awk -F '/' '{print $NF}'`
+[ `echo "$header_name"|awk -F '/' '{print NF}'` -gt 1 ] && src_n=`echo "$header_name"|sed 's/'$header_name_only'$//'` || src_n=$src
+hn=`find $src_n -maxdepth 100 -type f -name $header_name_only|head -n1|sed 's/\/'$header_name_only'$//'`
 [ -z "$hn" ] && echo "library \"$header_name\" not found!" && exit
 
-source_file=`echo "$source_file"|awk -F '/' '{print $NF}'`
-sf=`find $src -maxdepth 100 -type f -name $source_file|head -n1|sed 's/\/'$source_file'$//'`
+# source_file=`echo "$source_file"|awk -F '/' '{print $NF}'`
+source_file_only=`echo "$source_file"|awk -F '/' '{print $NF}'`
+[ `echo "$source_file"|awk -F '/' '{print NF}'` -gt 1 ] && src_n=`echo "$source_file"|sed 's/'$source_file_only'$//'` || src_n=$src
+sf=`find $src_n -maxdepth 100 -type f -name $source_file_only|head -n1|sed 's/\/'$source_file_only'$//'`
 [ -z "$sf" ] && echo "source file \"$source_file\" not found!" && exit
 
 lib_path=`cd $hn && pwd || echo "error finding for library"`
@@ -92,4 +95,4 @@ if [ "$lib_path" != "$source_path" ] && [ "${relative_path%"${relative_path#?}"}
 fi
 
 include=`echo $include|sed 's/\/$//'`
-[ X"" = X"$include" ] && echo "#include \"$header_name\"" || echo "#include \"$include/$header_name\""
+[ X"" = X"$include" ] && echo "#include \"$header_name_only\"" || echo "#include \"$include/$header_name_only\""
