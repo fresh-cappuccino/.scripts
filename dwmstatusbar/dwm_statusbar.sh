@@ -43,23 +43,27 @@ volume()
 	#
 	muted_=$(pamixer --get-mute)
 	if [ "$muted_" = "true" ] ; then
-
-		volume_="「──」「──────────」「🔇」"
+		volume_="「──」「━━━━━━━━━━━━━━━━━━━━」「🔇」"
 	else
 		num_vol=$(pamixer --get-volume)
-		volume_="「$num_vol」「${vol_bar:0:$(expr $num_vol / 10)}${vol_space:0:$(expr 10 - $num_vol / 10)}」「」"
+		volume_="「$num_vol」「${vol_bar:0:$(expr $num_vol / 5)}${vol_space:0:$(expr 20 - $num_vol / 5)}」「」"
 	fi
 }
 
-main()
+initialization()
 {
-	vol_bar="▇▇▇▇▇▇▇▇▇▇"
-	vol_space="⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
+	vol_bar="▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇"
+	vol_space="⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
 
 	# vol_bar="██████████"
 	# vol_bar="▓▓▓▓▓▓▓▓▓▓"
 	# vol_space="▂▂▂▂▂▂▂▂▂▂"
 	# vol_space="__________"
+}
+
+main()
+{
+	initialization
 	while true; do
 		#cpu
 		disk
@@ -70,7 +74,7 @@ main()
 
 		#🐧
 		xsetroot -name " «» ⎰ $volume_ ⎮ 💻$mem_ ⎮ $disk_ ⎮ $date_ ⎱ $user_ "
-		sleep 0.2
+		sleep 0.1
 	done
 }
 
