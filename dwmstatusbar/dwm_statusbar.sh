@@ -53,9 +53,13 @@ volume()
 
 main()
 {
-	vol_bar="██████████"
+	vol_bar="▇▇▇▇▇▇▇▇▇▇"
+	vol_space="⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
+
+	# vol_bar="██████████"
+	# vol_bar="▓▓▓▓▓▓▓▓▓▓"
 	# vol_space="▂▂▂▂▂▂▂▂▂▂"
-	vol_space="__________"
+	# vol_space="__________"
 	while true; do
 		#cpu
 		disk
