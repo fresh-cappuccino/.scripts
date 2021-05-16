@@ -48,14 +48,16 @@ if [ $SLASHES -gt 1 ] ; then
 	done
 fi
 if [ "$TAR" = "." ] ; then
-	DIR_ORI=`echo $DIR_ORI|sed "s/$_end\.//"`
+	DIR_ORI=`echo "$DIR_ORI"|sed "s/$_end\.$//"`
+elif [ "$TAR" = ".." ] ; then
+	DIR_ORI=`echo "$DIR_ORI"|sed "s/$_end\.\.$//"`
 elif [ "$TAR" = "/" ] ; then
-	DIR_ORI=`echo $DIR_ORI|sed "s/$_end\///"`
+	DIR_ORI=`echo $DIR_ORI|sed "s/$_end\/$//"`
 elif [ "${TAR%"${TAR#?}"}" = "/" ] ; then
 	TAR=`echo "$TAR"|sed 's/^\///'`
 	DIR_ORI=`echo $DIR_ORI|sed "s/$_end\/$TAR$//"`
 else
-	DIR_ORI=`echo $DIR_ORI|sed "s/$_end$TAR//"`
+	DIR_ORI=`echo $DIR_ORI|sed "s/$_end$TAR$//"`
 fi
 
 NUM=1

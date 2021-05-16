@@ -43,7 +43,8 @@ done
 # if it was, delete the extension
 [ `echo $header_name|awk -F '.' '{print $NF}'` = "h" ] && header_name=`echo $header_name|sed 's/..$//'`
 
-header_name=`echo "$header_name"|awk -F '/' '{print $NF}'`
+[ `echo "$header_name"|awk -F '/' '{print NF}'` -gt 1 ] && [ X"" = X"$lib_path" ] && header_name_only=`echo "$header_name"|awk -F '/' '{print $NF}'` && lib_path=`echo "$header_name"|sed 's/\/'$header_name_only'$//'`
+[ X"" != X"$header_name_only" ] && header_name=$header_name_only
 
 # if library path was not passed, so the actual directory is considered to be it
 [ -z $lib_path ] && lib_path=`pwd`

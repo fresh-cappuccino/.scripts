@@ -35,7 +35,7 @@ done
 [ `echo "$header_name"|awk -F '.' '{print $NF}'` = "h" ] && header_name=${header_name:0:$[${#header_name} - 2]}
 
 # create a variable to include the constant with the library name (for definition)
-HEADER_NAME=`echo "$header_name"|tr ['a-z'] ['A-Z']|tr ['.'] ['_']`
+HEADER_NAME=`echo "$header_name"|awk -F "/" '{print $NF}'|tr ['a-z'] ['A-Z']|tr ['.'] ['_']`
 
 # checks if $lib_path exists, if not, creates it
 [ ! -e "$lib_path" ] && mkdir -p "$lib_path"
