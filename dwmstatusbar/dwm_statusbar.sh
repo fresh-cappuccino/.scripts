@@ -46,13 +46,32 @@ volume()
 		volume_="「──」「━━━━━━━━━━━━━━━━━━━━」「🔇」"
 	else
 		num_vol=$(pamixer --get-volume)
-		volume_="「$num_vol」「${vol_bar:0:$(expr $num_vol / 5)}${vol_space:0:$(expr 20 - $num_vol / 5)}」「」"
+		if [ $num_vol -lt 10 ] ; then
+			num_vol_show="  「$num_vol」"
+		elif [ $num_vol -lt 100 ] ; then
+			num_vol_show=" 「$num_vol」"
+		elif [ $num_vol -lt 1000 ] ; then
+			num_vol_show="「$num_vol」"
+		else
+			num_vol_show="「 ∞ 」"
+		fi
+		# 
+		if [ $num_vol -gt 200 ] ; then
+			volume_="$num_vol_show「$vol_bar_extra」「」"
+		elif [ $num_vol -gt 100 ] ; then
+			num_vol_aux=$((num_vol - 100))
+			volume_="$num_vol_show「${vol_bar_extra:0:$(expr $num_vol_aux / 5)}${vol_bar:0:$(expr 20 - $num_vol_aux / 5)}」「」"
+		else
+			volume_="$num_vol_show「${vol_bar:0:$(expr $num_vol / 5)}${vol_space:0:$(expr 20 - $num_vol / 5)}」「」"
+		fi
 	fi
 }
 
 initialization()
 {
 	vol_bar="▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇"
+	vol_bar_extra="❏❏❏❏❏❏❏❏❏❏❏❏❏❏❏❏❏❏❏❏"
+	vol_bar_extra="⍐⍐⍐⍐⍐⍐⍐⍐⍐⍐⍐⍐⍐⍐⍐⍐⍐⍐⍐⍐"
 	vol_space="⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
 
 	# vol_bar="██████████"
