@@ -2,7 +2,33 @@
 
 dte()
 {
-	date_="📅 "$(date +"%m/%d/%Y")" - 🕗 "$(date +"%H:%M")
+	date_="📅 "$(date +"%m/%d/%Y")" ╌ 🕗 "$(date +"%H:%M")
+	hour_="`date +"%H"`"
+	if [ $hour_ -eq "00" ] || [ $hour_ -eq "12" ] ; then
+		clock_symbol="🕛"
+	elif [ $hour_ -eq "01" ] || [ $hour_ -eq "13" ] ; then
+		clock_symbol="🕐"
+	elif [ $hour_ -eq "02" ] || [ $hour_ -eq "14" ] ; then
+		clock_symbol="🕑"
+	elif [ $hour_ -eq "03" ] || [ $hour_ -eq "15" ] ; then
+		clock_symbol="🕒"
+	elif [ $hour_ -eq "04" ] || [ $hour_ -eq "16" ] ; then
+		clock_symbol="🕓"
+	elif [ $hour_ -eq "05" ] || [ $hour_ -eq "17" ] ; then
+		clock_symbol="🕔"
+	elif [ $hour_ -eq "06" ] || [ $hour_ -eq "18" ] ; then
+		clock_symbol="🕕"
+	elif [ $hour_ -eq "07" ] || [ $hour_ -eq "19" ] ; then
+		clock_symbol="🕖"
+	elif [ $hour_ -eq "08" ] || [ $hour_ -eq "20" ] ; then
+		clock_symbol="🕗"
+	elif [ $hour_ -eq "09" ] || [ $hour_ -eq "21" ] ; then
+		clock_symbol="🕘"
+	elif [ $hour_ -eq "10" ] || [ $hour_ -eq "22" ] ; then
+		clock_symbol="🕙"
+	elif [ $hour_ -eq "11" ] || [ $hour_ -eq "23" ] ; then
+		clock_symbol="🕚"
+	fi
 }
 
 mem()
@@ -43,26 +69,42 @@ volume()
 	#
 	muted_=$(pamixer --get-mute)
 	if [ "$muted_" = "true" ] ; then
-		volume_="「──」「━━━━━━━━━━━━━━━━━━━━」「🔇」"
+		volume_="⎡───⎦━━━━━━━━━━━━━━━━━━━━⎡🔇⎦"
 	else
 		num_vol=$(pamixer --get-volume)
-		if [ $num_vol -lt 10 ] ; then
-			num_vol_show="  「$num_vol」"
+		if [ $num_vol -eq 0 ] ; then
+			num_vol_show="⎡◌◌◌⎦"
+			vol_symbol="🔈"
+		elif [ $num_vol -lt 10 ] ; then
+			num_vol_show="⎡◌◌$num_vol⎦"
+			vol_symbol="🔈"
+		elif [ $num_vol -lt 20 ] ; then
+			num_vol_show="⎡◌$num_vol⎦"
+			vol_symbol="🔈"
+		elif [ $num_vol -lt 50 ] ; then
+			num_vol_show="⎡◌$num_vol⎦"
+			vol_symbol="🔉"
 		elif [ $num_vol -lt 100 ] ; then
-			num_vol_show=" 「$num_vol」"
+			num_vol_show="⎡◌$num_vol⎦"
+			vol_symbol="🔊"
+		elif [ $num_vol -lt 500 ] ; then
+			num_vol_show="⎡$num_vol⎦"
+			vol_symbol="📣"
 		elif [ $num_vol -lt 1000 ] ; then
-			num_vol_show="「$num_vol」"
+			num_vol_show="⎡$num_vol⎦"
+			vol_symbol="📢"
 		else
-			num_vol_show="「 ∞ 」"
+			num_vol_show="⎡◌∞◌⎦"
+			vol_symbol="∞"
 		fi
 		# 
 		if [ $num_vol -gt 200 ] ; then
-			volume_="$num_vol_show「$vol_bar_extra」「」"
+			volume_="$num_vol_show$vol_bar_extra⎡$vol_symbol⎦"
 		elif [ $num_vol -gt 100 ] ; then
 			num_vol_aux=$((num_vol - 100))
-			volume_="$num_vol_show「${vol_bar_extra:0:$(expr $num_vol_aux / 5)}${vol_bar:0:$(expr 20 - $num_vol_aux / 5)}」「」"
+			volume_="$num_vol_show${vol_bar_extra:0:$(expr $num_vol_aux / 5)}${vol_bar:0:$(expr 20 - $num_vol_aux / 5)}⎡$vol_symbol⎦"
 		else
-			volume_="$num_vol_show「${vol_bar:0:$(expr $num_vol / 5)}${vol_space:0:$(expr 20 - $num_vol / 5)}」「」"
+			volume_="$num_vol_show${vol_bar:0:$(expr $num_vol / 5)}${vol_space:0:$(expr 20 - $num_vol / 5)}⎡$vol_symbol⎦"
 		fi
 	fi
 }
@@ -70,7 +112,7 @@ volume()
 initialization()
 {
 	vol_bar="▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇"
-	vol_bar_extra="❏❏❏❏❏❏❏❏❏❏❏❏❏❏❏❏❏❏❏❏"
+	# vol_bar_extra="❏❏❏❏❏❏❏❏❏❏❏❏❏❏❏❏❏❏❏❏"
 	vol_bar_extra="⍐⍐⍐⍐⍐⍐⍐⍐⍐⍐⍐⍐⍐⍐⍐⍐⍐⍐⍐⍐"
 	vol_space="⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯"
 
@@ -84,16 +126,17 @@ main()
 {
 	initialization
 	while true; do
-		#cpu
-		disk
+		# cpu
+		# disk
 		dte
-		mem
+		# mem
 		user
 		volume
 
-		#🐧
-		xsetroot -name " «» ⎰ $volume_ ⎮ 💻$mem_ ⎮ $disk_ ⎮ $date_ ⎱ $user_ "
-		sleep 0.1
+		# 🐧
+		# xsetroot -name " «» ⎰ $volume_ ⎮ 💻$mem_ ⎮ $disk_ ⎮ $date_ ⎱ $user_ "
+		xsetroot -name "⎰«»⎱ $volume_ $date_ ⎰$user_⎱"
+		# sleep 0.1
 	done
 }
 
