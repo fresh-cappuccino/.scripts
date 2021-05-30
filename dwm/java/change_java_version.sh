@@ -14,8 +14,9 @@ if [ -n "$selected" ]; then
 	answer="$(echo -e "No\nYes" | dmenu -i -p "Apply $selected?")"
 
 	if [ "$answer" = "Yes" ]; then
-		[[ "$current_java_version" = *"$selected"* ]] && echo "$selected is already the current java version" && exit 0
+		[[ "$current_java_version" = *"$selected"* ]] && echo "$selected is already the current java version" && notify-send "Java" "$selected is already the current java version" && exit 0
 		st sudo archlinux-java set "$selected"
+		[ $? -eq 0 ] && notify-send "Java" "Java version successfully changed to $selected" || notify-send "Error" "An error occurred while trying to change java to version $selected"
 		echo "Java version $selected has been set" && exit 0
 	fi
 
