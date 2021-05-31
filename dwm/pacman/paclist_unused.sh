@@ -1,5 +1,5 @@
 #!/bin/sh
 
-pacman -Q|bat
+pacman -Qdt|bat
 
 read -p "Press [ENTER] to continue"

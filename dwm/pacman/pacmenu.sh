@@ -9,10 +9,8 @@ OUTPUT="echo"
 declare -a options=(
 "update --- ( -Syyu )"
 "install --- ( -S )"
-"install [ AUR ] --- ( -S --AUR )"
-"remove --- ( -Rsnc )"
-"list --- ( -Qt )"
-"list all --- ( -Q )"
+"remove --- ( -R )"
+"list --- ( -Q[t] )"
 )
 
 # Piping the above array into dmenu.
@@ -27,25 +25,70 @@ case $choice in
 		;;
 
 	"install --- ( -S )")
-		$terminal_ $HOME/.scripts/dwm/pacman/pacinstall.sh
+		declare -a options=(
+			"Pacman"
+			"AUR"
+			"Menu"
+		)
+		choice=$(printf '%s\n' "${options[@]}" | dmenu -i -l 21 -p '[install] pacman -S: ')
+		case $choice in
+			'Pacman')
+				$terminal_ $HOME/.scripts/dwm/pacman/pacinstall.sh
+				;;
+
+			'AUR')
+				$terminal_ $HOME/.scripts/dwm/pacman/pacinstall_aur.sh
+				;;
+
+			"Menu")
+				$terminal_ $HOME/.scripts/dwm/pacman/pacinstall_menu.sh
+				;;
+		esac
 		[ $? -eq 0 ] && notify-send "Pacman install" "Package(s) successfully installed" || notify-send "Error" "An error occurred while trying to install the package(s)"
 		;;
 
-	"install [ AUR ] --- ( -S --AUR )")
-		$terminal_ $HOME/.scripts/dwm/pacman/pacinstall_aur.sh
-		[ $? -eq 0 ] && notify-send "AUR install" "Package(s) successfully installed" || notify-send "Error" "An error occurred while trying to install the package(s)"
-		;;
+	"remove --- ( -R )")
+		declare -a options=(
+			"--all-dependencies"
+			"--only-package"
+		)
+		choice=$(printf '%s\n' "${options[@]}" | dmenu -i -l 21 -p '[remove] pacman -R: ')
+		case $choice in
+			'--all-dependencies')
+				$terminal_ $HOME/.scripts/dwm/pacman/pacremove_all.sh
+				;;
 
-	"remove --- ( -Rsnc )")
-		$terminal_ $HOME/.scripts/dwm/pacman/pacremove.sh
+			'--only-package')
+				$terminal_ $HOME/.scripts/dwm/pacman/pacremove.sh
+				;;
+		esac
 		[ $? -eq 0 ] && notify-send "Pacman remove" "Package(s) successfully removed" || notify-send "Error" "An error occurred while trying to remove the package(s)"
 		;;
 
-	"list --- ( -Qt )")
-		$terminal_ $HOME/.scripts/dwm/pacman/paclist.sh
-		;;
+	"list --- ( -Q[t] )")
+		declare -a options=(
+			"all"
+			"all --include-default"
+			"local"
+			"unused"
+		)
+		choice=$(printf '%s\n' "${options[@]}" | dmenu -i -l 21 -p '[list] pacman -Q[t]: ')
+		case $choice in
+			'all')
+				$terminal_ $HOME/.scripts/dwm/pacman/paclist_all.sh
+				;;
 
-	"list all --- ( -Q )")
-		$terminal_ $HOME/.scripts/dwm/pacman/paclist_all.sh
+			'all --include-default')
+				$terminal_ $HOME/.scripts/dwm/pacman/paclist_all_include_default.sh
+				;;
+
+			'local')
+				$terminal_ $HOME/.scripts/dwm/pacman/paclist.sh
+				;;
+
+			'unused')
+				$terminal_ $HOME/.scripts/dwm/pacman/paclist_unused.sh
+				;;
+		esac
 		;;
 esac
