@@ -3,31 +3,33 @@
 dte()
 {
 	hour_="`date +"%H"`"
+	minute_="`date +"%M"`"
 	if [ $hour_ -eq "00" ] || [ $hour_ -eq "12" ] ; then
-		clock_symbol="🕛"
+		[ $minute_ -lt "30" ] && clock_symbol="🕛" || clock_symbol="🕧"
 	elif [ $hour_ -eq "01" ] || [ $hour_ -eq "13" ] ; then
-		clock_symbol="🕐"
+		[ $minute_ -lt "30" ] && clock_symbol="🕐" || clock_symbol="🕜"
 	elif [ $hour_ -eq "02" ] || [ $hour_ -eq "14" ] ; then
-		clock_symbol="🕑"
+		[ $minute_ -lt "30" ] && clock_symbol="🕑" || clock_symbol="🕝"
 	elif [ $hour_ -eq "03" ] || [ $hour_ -eq "15" ] ; then
-		clock_symbol="🕒"
+		[ $minute_ -lt "30" ] && clock_symbol="🕒" || clock_symbol="🕞"
 	elif [ $hour_ -eq "04" ] || [ $hour_ -eq "16" ] ; then
-		clock_symbol="🕓"
+		[ $minute_ -lt "30" ] && clock_symbol="🕓" || clock_symbol="🕟"
 	elif [ $hour_ -eq "05" ] || [ $hour_ -eq "17" ] ; then
-		clock_symbol="🕔"
+		[ $minute_ -lt "30" ] && clock_symbol="🕔" || clock_symbol="🕠"
 	elif [ $hour_ -eq "06" ] || [ $hour_ -eq "18" ] ; then
-		clock_symbol="🕕"
+		[ $minute_ -lt "30" ] && clock_symbol="🕕" || clock_symbol="🕡"
 	elif [ $hour_ -eq "07" ] || [ $hour_ -eq "19" ] ; then
-		clock_symbol="🕖"
+		[ $minute_ -lt "30" ] && clock_symbol="🕖" || clock_symbol="🕢"
 	elif [ $hour_ -eq "08" ] || [ $hour_ -eq "20" ] ; then
-		clock_symbol="🕗"
+		[ $minute_ -lt "30" ] && clock_symbol="🕗" || clock_symbol="🕣"
 	elif [ $hour_ -eq "09" ] || [ $hour_ -eq "21" ] ; then
-		clock_symbol="🕘"
+		[ $minute_ -lt "30" ] && clock_symbol="🕘" || clock_symbol="🕤"
 	elif [ $hour_ -eq "10" ] || [ $hour_ -eq "22" ] ; then
-		clock_symbol="🕙"
+		[ $minute_ -lt "30" ] && clock_symbol="🕙" || clock_symbol="🕥"
 	elif [ $hour_ -eq "11" ] || [ $hour_ -eq "23" ] ; then
-		clock_symbol="🕚"
+		[ $minute_ -lt "30" ] && clock_symbol="🕚" || clock_symbol="🕦"
 	fi
+
 	date_="📅 "$(date +"%m/%d/%Y")" ╌ $clock_symbol "$(date +"%H:%M")
 }
 
@@ -36,7 +38,6 @@ mem()
 	mem_used_=$(echo "(`cat /proc/meminfo|sed -n 1p|tr -d \"A-Za-z:' '\"` - `cat /proc/meminfo|sed -n 2p|tr -d \"A-Za-z:' '\"`) / 1000"|bc)
 	mem_tot_=$(echo "`cat /proc/meminfo|sed -n 1p|tr -d \"A-Za-z:' '\"` / 1000"|bc)" MiB"
 	mem_="「📏」 "$mem_used_"/"$mem_tot_
-
 }
 
 cpu()
@@ -50,7 +51,8 @@ cpu()
 	#cpu_tmp_="﨎$(expr $(cat "/sys/class/hwmon/hwmon1/temp1_input") / 1000)°C"
 #}
 
-disk(){
+disk()
+{
 	disk_root=$(df -h|awk '{if ($6 == "/") {print}}'|awk '{print "「/」: " $5}')
 	disk_home=$(df -h|awk '{if ($6 == "/home") {print}}'|awk '{print "「~」: " $5}')
 	disk_=" $disk_root $disk_home"
@@ -125,18 +127,19 @@ initialization()
 main()
 {
 	initialization
+	second_=`date +%S` && mem
 	while true; do
 		# cpu
 		disk
 		dte
-		mem
+		[ "$second_" -ne "`date +%S`" ] && second_=`date +%S` && mem
 		user
 		volume
 
 		# 🐧
 		xsetroot -name " «» ⎮ $volume_ ⎮ 💻$mem_ ⎮ $disk_ ⎮ $date_ ⎰$user_⎱"
 		# xsetroot -name "⎰«»⎱ $volume_ $date_ ⎰$user_⎱"
-		sleep 0.1
+		# sleep 0.1
 	done
 }
 
