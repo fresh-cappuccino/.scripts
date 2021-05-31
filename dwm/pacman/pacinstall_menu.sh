@@ -19,10 +19,12 @@ do
 	case $opt in
 		$pacopt)
 			pacman -Slq | fzf -m --preview 'cat <(pacman -Si {1}) <(pacman -Fl {1} | awk \"{print \$2}\")' | xargs -ro sudo pacman -S
+			[ $? -eq 0 ] && notify-send "Pacman install" "Package(s) successfully installed" || notify-send "Error" "An error occurred while trying to install the package(s)"
 			;;
 
 		$auropt)
 			paru -Slq | fzf -m --preview 'cat <(paru -Si {1}) <(paru -Fl {1} | awk \"{print \$2}\")' | xargs -ro paru -S
+			[ $? -eq 0 ] && notify-send "AUR install" "Package(s) successfully installed" || notify-send "Error" "An error occurred while trying to install the package(s)"
 			;;
 	esac
 

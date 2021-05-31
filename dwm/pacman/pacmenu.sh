@@ -30,21 +30,26 @@ case $choice in
 			"AUR"
 			"Menu"
 		)
-		choice=$(printf '%s\n' "${options[@]}" | dmenu -i -l 21 -p '[install] pacman -S: ')
-		case $choice in
-			'Pacman')
-				$terminal_ $HOME/.scripts/dwm/pacman/pacinstall.sh
-				;;
+		choice=$(printf '%s\n' "${options[@]}" | dmenu -i -p '[install] pacman -S: ')
+		if [ X"" != X"$choice" ] ; then
+			case $choice in
+				'Pacman')
+					$terminal_ $HOME/.scripts/dwm/pacman/pacinstall.sh
+					;;
 
-			'AUR')
-				$terminal_ $HOME/.scripts/dwm/pacman/pacinstall_aur.sh
-				;;
+				'AUR')
+					$terminal_ $HOME/.scripts/dwm/pacman/pacinstall_aur.sh
+					;;
 
-			"Menu")
-				$terminal_ $HOME/.scripts/dwm/pacman/pacinstall_menu.sh
-				;;
-		esac
-		[ $? -eq 0 ] && notify-send "Pacman install" "Package(s) successfully installed" || notify-send "Error" "An error occurred while trying to install the package(s)"
+				"Menu")
+					$terminal_ $HOME/.scripts/dwm/pacman/pacinstall_menu.sh
+					;;
+			esac
+
+			if [ "$choice" != "Menu" ] ; then
+				[ $? -eq 0 ] && notify-send "Pacman install" "Package(s) successfully installed" || notify-send "Error" "An error occurred while trying to install the package(s)"
+			fi
+		fi
 		;;
 
 	"remove --- ( -R )")
@@ -52,17 +57,20 @@ case $choice in
 			"--all-dependencies"
 			"--only-package"
 		)
-		choice=$(printf '%s\n' "${options[@]}" | dmenu -i -l 21 -p '[remove] pacman -R: ')
-		case $choice in
-			'--all-dependencies')
-				$terminal_ $HOME/.scripts/dwm/pacman/pacremove_all.sh
-				;;
+		choice=$(printf '%s\n' "${options[@]}" | dmenu -i -p '[remove] pacman -R: ')
 
-			'--only-package')
-				$terminal_ $HOME/.scripts/dwm/pacman/pacremove.sh
-				;;
-		esac
-		[ $? -eq 0 ] && notify-send "Pacman remove" "Package(s) successfully removed" || notify-send "Error" "An error occurred while trying to remove the package(s)"
+		if [ X"" != X"$choice" ] ; then
+			case $choice in
+				'--all-dependencies')
+					$terminal_ $HOME/.scripts/dwm/pacman/pacremove_all.sh
+					;;
+
+				'--only-package')
+					$terminal_ $HOME/.scripts/dwm/pacman/pacremove.sh
+					;;
+			esac
+			[ $? -eq 0 ] && notify-send "Pacman remove" "Package(s) successfully removed" || notify-send "Error" "An error occurred while trying to remove the package(s)"
+		fi
 		;;
 
 	"list --- ( -Q[t] )")
