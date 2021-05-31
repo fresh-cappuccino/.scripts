@@ -3,33 +3,34 @@
 dte()
 {
 	hour_="`date +"%H"`"
+	minute_="`date +"%M"`"
 	if [ $hour_ -eq "00" ] || [ $hour_ -eq "12" ] ; then
-		clock_symbol="🕛"
+		[ $minute_ -lt "30" ] && clock_symbol="🕛" || clock_symbol="🕧"
 	elif [ $hour_ -eq "01" ] || [ $hour_ -eq "13" ] ; then
-		clock_symbol="🕐"
+		[ $minute_ -lt "30" ] && clock_symbol="🕐" || clock_symbol="🕜"
 	elif [ $hour_ -eq "02" ] || [ $hour_ -eq "14" ] ; then
-		clock_symbol="🕑"
+		[ $minute_ -lt "30" ] && clock_symbol="🕑" || clock_symbol="🕝"
 	elif [ $hour_ -eq "03" ] || [ $hour_ -eq "15" ] ; then
-		clock_symbol="🕒"
+		[ $minute_ -lt "30" ] && clock_symbol="🕒" || clock_symbol="🕞"
 	elif [ $hour_ -eq "04" ] || [ $hour_ -eq "16" ] ; then
-		clock_symbol="🕓"
+		[ $minute_ -lt "30" ] && clock_symbol="🕓" || clock_symbol="🕟"
 	elif [ $hour_ -eq "05" ] || [ $hour_ -eq "17" ] ; then
-		clock_symbol="🕔"
+		[ $minute_ -lt "30" ] && clock_symbol="🕔" || clock_symbol="🕠"
 	elif [ $hour_ -eq "06" ] || [ $hour_ -eq "18" ] ; then
-		clock_symbol="🕕"
+		[ $minute_ -lt "30" ] && clock_symbol="🕕" || clock_symbol="🕡"
 	elif [ $hour_ -eq "07" ] || [ $hour_ -eq "19" ] ; then
-		clock_symbol="🕖"
+		[ $minute_ -lt "30" ] && clock_symbol="🕖" || clock_symbol="🕢"
 	elif [ $hour_ -eq "08" ] || [ $hour_ -eq "20" ] ; then
-		clock_symbol="🕗"
+		[ $minute_ -lt "30" ] && clock_symbol="🕗" || clock_symbol="🕣"
 	elif [ $hour_ -eq "09" ] || [ $hour_ -eq "21" ] ; then
-		clock_symbol="🕘"
+		[ $minute_ -lt "30" ] && clock_symbol="🕘" || clock_symbol="🕤"
 	elif [ $hour_ -eq "10" ] || [ $hour_ -eq "22" ] ; then
-		clock_symbol="🕙"
+		[ $minute_ -lt "30" ] && clock_symbol="🕙" || clock_symbol="🕥"
 	elif [ $hour_ -eq "11" ] || [ $hour_ -eq "23" ] ; then
-		clock_symbol="🕚"
+		[ $minute_ -lt "30" ] && clock_symbol="🕚" || clock_symbol="🕦"
 	fi
 
-	date_="📅 "$(date +"%m/%d/%Y")" ╌ $clock_symbol "$(date +"%H:%M")
+	date_="$clock_symbol $(date +"%H:%M")"
 }
 
 mem()

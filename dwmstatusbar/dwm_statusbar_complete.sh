@@ -2,7 +2,6 @@
 
 dte()
 {
-	date_="📅 "$(date +"%m/%d/%Y")" ╌ 🕗 "$(date +"%H:%M")
 	hour_="`date +"%H"`"
 	if [ $hour_ -eq "00" ] || [ $hour_ -eq "12" ] ; then
 		clock_symbol="🕛"
@@ -29,6 +28,7 @@ dte()
 	elif [ $hour_ -eq "11" ] || [ $hour_ -eq "23" ] ; then
 		clock_symbol="🕚"
 	fi
+	date_="📅 "$(date +"%m/%d/%Y")" ╌ $clock_symbol "$(date +"%H:%M")
 }
 
 mem()
