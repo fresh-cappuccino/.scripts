@@ -1,20 +1,26 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-while [[ 0 -lt $# ]]
+_end=" ;--END--; "
+
+while [ 0 -lt $# ]
 do
-	[[ ${1:0:1} = "-" ]] && FLAGS="$FLAGS $1" || FIELDS="$FIELDS $1"
+	if [[ ${1:0:1} = "-" ]] ; then
+		FLAGS="$FLAGS $1"
+	else
+		[ X"" = X"$FIELDS" ] && FIELDS="$1" || FIELDS="$FIELDS$_end$1"
+	fi
 	shift
 done
 
 $HOME/.scripts/shell/pwd.sh
-SIZE=`echo $FIELDS|awk '{print NF}'`
+SIZE=`echo $FIELDS|awk -F "$_end" '{print NF}'`
 if [ "$SIZE" -gt 0 ] ; then
 	NUM=1
 	while [ $NUM -le $SIZE ]
 	do
-		FIELD=`echo $FIELDS|cut -d" " -f$NUM`
+		FIELD=`echo $FIELDS|awk -F "$_end" '{print $'$NUM'}'`
 		FIELD=`echo $FIELD|sed 's/\ $//'|sed 's/\/$//'`
-		[[ -d "$FIELD" ]] && FIELD="$FIELD/" || FIELD="$FIELDS"
+		[[ -d "$FIELD" ]] && FIELD="$FIELD/"
 		$HOME/.scripts/shell/title-pwd.sh $FIELD
 		exa --icons --group-directories-first $FLAGS $FIELD
 		echo

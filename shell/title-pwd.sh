@@ -7,8 +7,12 @@ NUM_CHAR=27
 
 [ X"" = X"$_title" ] && exit
 
-cd "$_title"
-_title=`pwd`
+if [ -d "$_title" ] ; then
+	cd "$_title"
+	_title=`pwd`
+else
+	_title=`echo $_title|sed 's/\/'\`echo $_title|awk -F '/' '{print $NF}'\`'$//'`
+fi
 
 _PATH=
 [[ "/`echo "$_title"|cut -d "/" -f 2-3`" = "/home/`whoami`" ]] && _PATH=`echo -n "/"` && _PATH=$_PATH`echo -en "\033[01;36m~\033[01;32m☕\033[01;36m~$(tput sgr0)"` && _PATH=$_PATH`echo -n "/"` && _PATH=$_PATH`echo "$_title"|cut -d "/" -f 4-` || _PATH=$_PATH`echo "$_title"`
