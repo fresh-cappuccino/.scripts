@@ -80,7 +80,7 @@ case $choice in
 			"local"
 			"unused"
 		)
-		choice=$(printf '%s\n' "${options[@]}" | dmenu -i -l 21 -p '[list] pacman -Q[t]: ')
+		choice=$(printf '%s\n' "${options[@]}" | dmenu -i -p '[list] pacman -Q[t]: ')
 		case $choice in
 			'all')
 				$terminal_ $HOME/.scripts/dwm/pacman/paclist_all.sh
