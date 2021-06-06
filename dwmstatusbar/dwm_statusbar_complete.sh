@@ -137,7 +137,7 @@ main()
 		volume
 
 		# 🐧
-		xsetroot -name " «» ⎮ $volume_ ⎮ 💻$mem_ ⎮ $disk_ ⎮ $date_ ⎰$user_⎱"
+		xsetroot -name "⎰«»⎱ $volume_ ⎮ 💻$mem_ ⎮ $disk_ ⎮ $date_ ⎰$user_⎱"
 		# xsetroot -name "⎰«»⎱ $volume_ $date_ ⎰$user_⎱"
 		# sleep 0.1
 	done
