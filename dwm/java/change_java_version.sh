@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+$term_resolution=120x35+640+200
+terminal_="st -ig $term_resolution"
+
 current_java_version=`archlinux-java get|tail -n1`
 java_lines=`archlinux-java status|wc -l`
 
@@ -15,7 +18,7 @@ if [ -n "$selected" ]; then
 
 	if [ "$answer" = "Yes" ]; then
 		[[ "$current_java_version" = *"$selected"* ]] && echo "$selected is already the current java version" && notify-send "Java" "$selected is already the current java version" && exit 0
-		st sudo archlinux-java set "$selected"
+		$terminal_ sudo archlinux-java set "$selected"
 		[ $? -eq 0 ] && notify-send "Java" "Java version successfully changed to $selected" || notify-send "Error" "An error occurred while trying to change java to version $selected"
 		echo "Java version $selected has been set" && exit 0
 	fi
