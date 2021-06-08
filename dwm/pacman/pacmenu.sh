@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-terminal_='st'
+term_resolution=120x35+640+200
+terminal_="st -ig $term_resolution"
 
 # use notify-send if run in dumb term
 OUTPUT="echo"
