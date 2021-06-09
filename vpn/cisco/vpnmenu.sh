@@ -2,6 +2,7 @@
 
 term_resolution=120x35+640+200
 terminal_="st -ig $term_resolution"
+vpn_state=`ciscovpn -s status|tail -n5|head -n1|awk '{print $NF}'`
 
 # screen_heigh=`xdpyinfo|grep dimensions|sed -r 's/^[^0-9]*([0-9]+x[0-9]+).*$/\1/'|awk -F 'x' '{print $1}'`
 # screen_width=`xdpyinfo|grep dimensions|sed -r 's/^[^0-9]*([0-9]+x[0-9]+).*$/\1/'|awk -F 'x' '{print $2}'`
@@ -19,16 +20,17 @@ declare -a options=(
 
 # Piping the above array into dmenu.
 # "printf '%s\n'" used to format the array one item to a line.
-choice=$(printf '%s\n' "${options[@]}" | dmenu -i -l 21 -p '[VPN] ciscovpn: ')
+choice=$(printf '%s\n' "${options[@]}" | dmenu -i -l 21 -p "[VPN] ciscovpn (`[[ "$vpn_state" = "Disconnected" ]] && echo "disc" || echo "conn"`): ")
 
 # What to do when/if we choose one of the options.
 case $choice in
 	"connect")
-		if [[ `ciscovpn -s status|tail -n5|head -n1` = *"Disconnected"* ]] ; then
+		if [[ "$vpn_state" = "Disconnected" ]] ; then
 			declare -a options=(
 				"unimed"
 				"other"
 			)
+
 			choice=$(printf '%s\n' "${options[@]}" | dmenu -i -p '[VPN] ciscovpn connect: ')
 			if [ X"" != X"$choice" ] ; then
 				case $choice in
@@ -50,7 +52,7 @@ case $choice in
 		;;
 
 	"disconnect")
-		if [[ `ciscovpn -s status|tail -n5|head -n1` != *"Disconnected"* ]] ; then
+		if [[ "$vpn_state" != "Disconnected" ]] ; then
 			ciscovpn -s disconnect
 			vpn_state=`ciscovpn -s status|tail -n5|head -n1|awk '{print $NF}'`
 			[ "$vpn_state" = "Disconnected" ] && notify-send "Cisco VPN" "VPN successffully disconnected" || notify-send "Error" "An error occurred while trying to disconnect VPN"
