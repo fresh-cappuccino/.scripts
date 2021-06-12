@@ -25,7 +25,7 @@ do
 done
 
 # check if a name for the library was passed, if not, exit the script
-[ -z "$header_name" ] && echo "You need to specify a name for the library" && exit
+[ -z "$header_name" ] && echo "You need to specify a name for the library" && notify-send -i $HOME/.scripts/c/icons/c-error.png "Error" "You need to specify a name for the library to be created" && exit
 
 # if a path for the library was not passed, so it considers thw actual directory to be it
 [ -z "$lib_path" ] && lib_path=`pwd`
@@ -46,6 +46,6 @@ echo -n "#ifndef _${HEADER_NAME}_H_
 
 #endif" >> $lib_path/$header_name.h
 
-echo "$header_name.h successfully created in $lib_path"
+[ $? -eq 0 ] && echo "$header_name.h successfully created in $lib_path" && notify-send -i $HOME/.scripts/c/icons/c-logo.png "C" "library $header_name.h successfully created in $lib_path" || notify-send -i $HOME/.scripts/c/icons/c-error.png "Error" "An error occurred whit trying to create library $header_name.h in $lib_path"
 
 [ "${execute%"${execute#?}"}" = "t" ] && nvim "$lib_path/$header_name.h" || echo $? >/dev/null

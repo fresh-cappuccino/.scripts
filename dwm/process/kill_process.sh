@@ -14,7 +14,7 @@ if [ -n "$selected" ]; then
 		selpid="$(awk '{print $1}' <<< "$selected")";
 		selname="$(awk '{print $2}' <<< "$selected")";
 		kill -9 "$selpid"
-		[ $? -eq 0 ] && notify-send "Process" "process $selname ($selpid) succesfully killed" || notify-send "Error" "An error occurred while trying to kill process $selname ($selpid)"
+		[ $? -eq 0 ] && notify-send -i $HOME/.scripts/dwm/process/icons/process-logo.png "Process" "process $selname ($selpid) succesfully killed" || notify-send -i $HOME/.scripts/dwm/process/icons/process-logo.png "Error" "An error occurred while trying to kill process $selname ($selpid)"
 		echo "Process $selected has been killed." && exit 0
 	fi
 

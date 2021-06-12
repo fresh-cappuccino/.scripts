@@ -22,7 +22,7 @@ choice=$(printf '%s\n' "${options[@]}" | dmenu -i -l 21 -p '[comm] pacman: ')
 case $choice in
 	"update --- ( -Syyu )")
 		$terminal_ $HOME/.scripts/dwm/pacman/pacupdate.sh
-		[ $? -eq 0 ] && notify-send "Pacman update" "Package(s) successfully updated" || notify-send "Error" "An error occurred while trying to update the package(s)"
+		[ $? -eq 0 ] && notify-send -i $HOME/.scripts/dwm/pacman/icons/pacman-logo.png "Pacman update" "Package(s) successfully updated" || notify-send -i $HOME/.scripts/dwm/pacman/icons/pacman-error.png "Error" "An error occurred while trying to update the package(s)"
 		;;
 
 	"install --- ( -S )")
@@ -48,7 +48,7 @@ case $choice in
 			esac
 
 			if [ "$choice" != "Menu" ] ; then
-				[ $? -eq 0 ] && notify-send "Pacman install" "Package(s) successfully installed" || notify-send "Error" "An error occurred while trying to install the package(s)"
+				[ $? -eq 0 ] && notify-send -i $HOME/.scripts/dwm/pacman/icons/pacman-logo.png "Pacman install" "Package(s) successfully installed" || notify-send -i $HOME/.scripts/dwm/pacman/icons/pacman-error.png "Error" "An error occurred while trying to install the package(s)"
 			fi
 		fi
 		;;
@@ -70,7 +70,7 @@ case $choice in
 					$terminal_ $HOME/.scripts/dwm/pacman/pacremove.sh
 					;;
 			esac
-			[ $? -eq 0 ] && notify-send "Pacman remove" "Package(s) successfully removed" || notify-send "Error" "An error occurred while trying to remove the package(s)"
+			[ $? -eq 0 ] && notify-send -i $HOME/.scripts/dwm/pacman/icons/pacman-logo.png "Pacman remove" "Package(s) successfully removed" || notify-send -i $HOME/.scripts/dwm/pacman/icons/pacman-error.png "Error" "An error occurred while trying to remove the package(s)"
 		fi
 		;;
 

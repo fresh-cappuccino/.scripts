@@ -37,7 +37,7 @@ done
 
 # check if the name of the library was passed
 # if not, exit the script
-[ -z "$header_name" ] && echo "You need to specify a name for the library implementation" && exit
+[ -z "$header_name" ] && echo "You need to specify a name for the library implementation" && notify-send -i $HOME/.scripts/c/icons/c-error.png "Error" "You need to specify a name for the library implementation" && exit
 
 # check the the extension of the library (.h) was passed
 # if it was, delete the extension
@@ -59,17 +59,17 @@ if [ -d $lib_path ] ; then
 	lib_path=`pwd`
 	cd $actual_path
 else
-	echo "$lib_path is not a valid directory!" && exit 1
+	echo "$lib_path is not a valid directory!" && notify-send -i $HOME/.scripts/c/icons/c-error.png "Error" "$lib_path is not a valid directory" && exit 1
 fi
 
-[ ! -f "$lib_path/$header_name.h" ] && echo "Library $header_name.h not found! Please specify an existant library name..." && exit
+[ ! -f "$lib_path/$header_name.h" ] && echo "Library $header_name.h not found! Please specify an existant library name" && notify-send -i $HOME/.scripts/c/icons/c-error.png "Error" "Library $header_name.h not found! Please specify an existant library name" && exit
 
 if [ -d "$source_path" ] ; then
 	cd $source_path
 	source_path=`pwd`
 	cd $actual_path
 else
-	echo "$source_path is not a valid directory" && exit 1
+	echo "$source_path is not a valid directory" && notify-send -i $HOME/.scripts/c/icons/c-error.png "Error" "$source_path is not a valid directory" && exit 1
 fi
 
 # variable responsible to be the relative path for the library include in c file
@@ -144,6 +144,6 @@ $header_functions" >> $source_path/$header_name.c
 
 sed -i 's/;$/\n{\n\n}/' $source_path/$header_name.c
 
-echo "$header_name.c successfully created in $source_path"
+[ $? -eq 0 ] && echo "$header_name.c successfully created in $source_path" && notify-send -i $HOME/.scripts/c/icons/c-logo.png "C" "$header_name.c successfully created in $source_path"
 
 [ "${execute%"${execute#?}"}" = "t" ] && nvim "$source_path/$header_name.c" || echo $? >/dev/null

@@ -44,10 +44,10 @@ case $choice in
 				esac
 
 				vpn_state=`ciscovpn -s status|tail -n5|head -n1|awk '{print $NF}'`
-				[ "$vpn_state" != "Disconnected" ] && notify-send "Cisco VPN" "VPN successffully connected" || notify-send "Error" "An error occurred while trying to connect VPN"
+				[ "$vpn_state" != "Disconnected" ] && notify-send -i $HOME/.scripts/vpn/cisco/icons/ciscovpn-logo.png "Cisco VPN" "VPN successfully connected" || notify-send -i $HOME/.scripts/vpn/cisco/icons/ciscovpn-error.png "Error" "An error occurred while trying to connect VPN"
 			fi
 		else
-			notify-send "Cisco VPN" "VPN is already connected"
+			notify-send -i $HOME/.scripts/vpn/cisco/icons/ciscovpn-logo.png "Cisco VPN" "VPN is already connected"
 		fi
 		;;
 
@@ -55,9 +55,9 @@ case $choice in
 		if [[ "$vpn_state" != "Disconnected" ]] ; then
 			ciscovpn -s disconnect
 			vpn_state=`ciscovpn -s status|tail -n5|head -n1|awk '{print $NF}'`
-			[ "$vpn_state" = "Disconnected" ] && notify-send "Cisco VPN" "VPN successffully disconnected" || notify-send "Error" "An error occurred while trying to disconnect VPN"
+			[ "$vpn_state" = "Disconnected" ] && notify-send -i $HOME/.scripts/vpn/cisco/icons/ciscovpn-logo.png "Cisco VPN" "VPN successfully disconnected" || notify-send -i $HOME/.scripts/vpn/cisco/icons/ciscovpn-error.png "Error" "An error occurred while trying to disconnect VPN"
 		else
-			notify-send "Cisco VPN" "VPN is already disconnected"
+			notify-send -i $HOME/.scripts/vpn/cisco/icons/ciscovpn-logo.png "Cisco VPN" "VPN is already disconnected"
 		fi
 		;;
 
