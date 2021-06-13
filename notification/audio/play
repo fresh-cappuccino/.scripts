@@ -1,0 +1,3 @@
+#!/bin/sh
+
+paplay $HOME/.scripts/notification/audio/content/miko-nigga.ogg

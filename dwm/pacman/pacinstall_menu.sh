@@ -22,13 +22,13 @@ do
 		$pacopt)
 			$HOME/.scripts/shell/title.sh "PACMAN INSTALLER"
 			pacman -Slq | fzf -m --preview 'cat <(pacman -Si {1}) <(pacman -Fl {1} | awk \"{print \$2}\")' | xargs -ro sudo pacman -S
-			[ $? -eq 0 ] && notify-send "Pacman install" "Package(s) successfully installed" || notify-send "Error" "An error occurred while trying to install the package(s)"
+			[ $? -eq 0 ] && notify-send -i $HOME/.scripts/dwm/pacman/icons/pacman-logo.png "Pacman install" "Package(s) successfully installed" || notify-send -i $HOME/.scripts/dwm/pacman/icons/pacman-error.png "Error" "An error occurred while trying to install the package(s)"
 			;;
 
 		$auropt)
 			$HOME/.scripts/shell/title.sh "AUR INSTALLER"
 			paru -Slq | fzf -m --preview 'cat <(paru -Si {1}) <(paru -Fl {1} | awk \"{print \$2}\")' | xargs -ro paru -S
-			[ $? -eq 0 ] && notify-send "AUR install" "Package(s) successfully installed" || notify-send "Error" "An error occurred while trying to install the package(s)"
+			[ $? -eq 0 ] && notify-send -i $HOME/.scripts/dwm/pacman/icons/pacman-logo.png "AUR install" "Package(s) successfully installed" || notify-send -i $HOME/.scripts/dwm/pacman/icons/pacman-error.png "Error" "An error occurred while trying to install the package(s)"
 			;;
 	esac
 

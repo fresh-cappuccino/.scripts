@@ -47,8 +47,9 @@ case $choice in
 					;;
 			esac
 
+			act=$?
 			if [ "$choice" != "Menu" ] ; then
-				[ $? -eq 0 ] && notify-send -i $HOME/.scripts/dwm/pacman/icons/pacman-logo.png "Pacman install" "Package(s) successfully installed" || notify-send -i $HOME/.scripts/dwm/pacman/icons/pacman-error.png "Error" "An error occurred while trying to install the package(s)"
+				[ $act -eq 0 ] && notify-send -i $HOME/.scripts/dwm/pacman/icons/pacman-logo.png "Pacman install" "Package(s) successfully installed" || notify-send -i $HOME/.scripts/dwm/pacman/icons/pacman-error.png "Error" "An error occurred while trying to install the package(s)"
 			fi
 		fi
 		;;
