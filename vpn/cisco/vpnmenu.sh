@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-term_resolution=120x35+640+200
+term_resolution="120x35+640+200"
 terminal_="st -ig $term_resolution"
 vpn_state=`ciscovpn -s status|tail -n5|head -n1|awk '{print $NF}'`
 
